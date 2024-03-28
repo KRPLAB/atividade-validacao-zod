@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { ProductsControllers } from "../controllers/products.controllers";
 import { IsProductNameUnique } from "../middlewares/isProductNameUnique.middleware";
-import { IsProductBodyValid } from "../middlewares/isProductBodyValid.middleware";
+import { IsValidRequest } from "../middlewares/isValidRequest.middleware.ts";
+import { createProductBodySchema } from "../schemas/isCreateProductBodyValid.schema";
 
 export const productsRoutes = Router();
 
 const productsControllers = new ProductsControllers();
 
-productsRoutes.post("/", IsProductBodyValid.execute,IsProductNameUnique.execute, productsControllers.createProduct);
+productsRoutes.post("/", IsValidRequest.execute({body: createProductBodySchema}),IsProductNameUnique.execute, productsControllers.createProduct);
